@@ -35,7 +35,7 @@ function generateCard(card, deleteCard) {
 // @todo: Функция удаления карточки
 
 function deleteCard(item) {
-    item.target.parentElement.remove();
+    item.target.closest('.card').remove();
 }
 
 // @todo: Вывести карточки на страницу
