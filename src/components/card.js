@@ -33,7 +33,7 @@ export function generateCard(card, deleteCard, likeCard, openCard) {
 // @todo: Функция удаления карточки
 
 export function deleteCard(item) {
-  item.target.parentElement.remove();
+    item.target.closest('.card').remove();
 }
 
 export function likeCard(item) {
