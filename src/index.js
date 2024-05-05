@@ -28,9 +28,6 @@ const captionOpenCard = document.querySelector('.popup__caption');
 const nameProfile = document.querySelector('.profile__title');
 const descriptionProfile = document.querySelector('.profile__description');
 
-editNameInput.value = 'Жак-Ив Кусто';
-editJobInput.value = 'Исследователь океана';
-
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
 function handleProfileFormSubmit(evt) {
@@ -71,11 +68,11 @@ buttonPopupAdd.addEventListener('click', () => {
   openPopup(popupAddNewCard);
 });
 
-function openCard(item) {
+function openCard(evt) {
   openPopup(popupOpenPlace);
-  imageOpenCard.src = item.target.src;
-  imageOpenCard.alt = item.target.alt;
-  captionOpenCard.textContent = item.target.alt;
+  imageOpenCard.src = evt.target.src;
+  imageOpenCard.alt = evt.target.alt;
+  captionOpenCard.textContent = evt.target.alt;
 }
 
 // @todo: Вывести карточки на страницу
@@ -87,12 +84,12 @@ initialCards.forEach(card => {
 //
 // Обработчики крестика закрытия попапа
 //
-popupEditProfile.querySelector('.popup__close').addEventListener('click', () => {
-  closePopup(popupEditProfile);
-});
-popupAddNewCard.querySelector('.popup__close').addEventListener('click', () => {
-  closePopup(popupAddNewCard);
-});
-popupOpenPlace.querySelector('.popup__close').addEventListener('click', () => {
-  closePopup(popupOpenPlace);
+// находим все крестики проекта по универсальному селектору
+const closeButtons = document.querySelectorAll('.popup__close');
+
+closeButtons.forEach((button) => {
+  // находим 1 раз ближайший к крестику попап 
+  const popup = button.closest('.popup');
+  // устанавливаем обработчик закрытия на крестик
+  button.addEventListener('click', () => closePopup(popup));
 });

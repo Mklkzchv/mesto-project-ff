@@ -32,11 +32,11 @@ export function generateCard(card, deleteCard, likeCard, openCard) {
 
 // @todo: Функция удаления карточки
 
-export function deleteCard(item) {
-    item.target.closest('.card').remove();
+export function deleteCard(evt) {
+  evt.target.closest('.card').remove();
 }
 
-export function likeCard(item) {
-  item.target.classList.toggle('card__like-button_is-active');
+export function likeCard(evt) {
+  evt.target.classList.toggle('card__like-button_is-active');
 }
   
