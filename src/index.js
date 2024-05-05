@@ -33,7 +33,7 @@ editJobInput.value = 'Исследователь океана';
 
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
-function handleFormSubmit(evt) {
+function handleProfileFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
   nameProfile.textContent = nameProfileInput.value;
   descriptionProfile.textContent = jobProfileInput.value;
@@ -47,14 +47,13 @@ function handleFormPlaceSubmit(evt) {
     link: urlPlace.value,
   };
   placesList.prepend(generateCard(newCard, deleteCard, likeCard, openCard));
-  namePlace.value = '';
-  urlPlace.value = '';
+  evt.target.reset(); // сбрасываем форму
   closePopup(popupAddNewCard);
 }
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-profileForm.addEventListener('submit', handleFormSubmit); 
+profileForm.addEventListener('submit', handleProfileFormSubmit); 
 placeForm.addEventListener('submit', handleFormPlaceSubmit); 
 
 // Добавление слушателя событий для попапа редактирования данных профиля
@@ -83,4 +82,17 @@ function openCard(item) {
 
 initialCards.forEach(card => {
     placesList.append(generateCard(card, deleteCard, likeCard, openCard));
+});
+
+//
+// Обработчики крестика закрытия попапа
+//
+popupEditProfile.querySelector('.popup__close').addEventListener('click', () => {
+  closePopup(popupEditProfile);
+});
+popupAddNewCard.querySelector('.popup__close').addEventListener('click', () => {
+  closePopup(popupAddNewCard);
+});
+popupOpenPlace.querySelector('.popup__close').addEventListener('click', () => {
+  closePopup(popupOpenPlace);
 });
