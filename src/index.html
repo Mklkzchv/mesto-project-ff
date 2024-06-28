@@ -14,7 +14,11 @@
   </header>
   <main class="content">
     <section class="profile page__section">
-      <div class="profile__image"></div>
+
+      <button type="button" class="profile__avatar-button">
+        <img src="#" alt="Аватар пользователя" class="profile__avatar">
+      </button>
+
       <div class="profile__info">
         <h1 class="profile__title">Жак-Ив Кусто</h1>
         <button class="profile__edit-button" type="button"></button>
@@ -32,24 +36,30 @@
       © 2024 Mesto Russia
     </p>
   </footer>
+
   <div class="popup popup_type_edit popup_is-animated">
     <div class="popup__content">
       <button type="button" class="popup__close"></button>
       <h3 class="popup__title">Редактировать профиль</h3>
-      <form class="popup__form" name="edit-profile">
-        <input type="text" name="name" class="popup__input popup__input_type_name" placeholder="Имя" required>
-        <input type="text" name="description" class="popup__input popup__input_type_description" placeholder="Занятие" required>
+      <form method="GET" class="popup__form" action="#" name="edit-form" novalidate>
+        <input type="text" name="name" id="name" class="popup__input popup__input_type_name" minlength="2" maxlength="40" placeholder="Имя" required>
+        <span class="popup__error name-error"></span>
+        <input type="text" name="description" id="profile" class="popup__input popup__input_type_description" minlength="2" maxlength="200" placeholder="Занятие" required>
+        <span class="popup__error profile-error"></span>
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>
   </div>
+
   <div class="popup popup_type_new-card popup_is-animated">
     <div class="popup__content">
       <button type="button" class="popup__close"></button>
       <h3 class="popup__title">Новое место</h3>
-      <form class="popup__form" name="new-place">
-        <input type="text" name="place-name" class="popup__input popup__input_type_card-name" placeholder="Название" required>
-        <input type="url" name="link" class="popup__input popup__input_type_url" placeholder="Ссылка на картинку" required>
+      <form method="GET" class="popup__form" action="#" name="new-place" novalidate>
+        <input type="text" name="place-name" id="imageName" class="popup__input popup__input_type_card-name" minlength="2" maxlength="30" placeholder="Название" required>
+        <span class="popup__error imageName-error"></span>
+        <input type="url" name="link" id="imageLink" class="popup__input popup__input_type_url" placeholder="Ссылка на картинку" required>
+        <span class="popup__error imageLink-error"></span>
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>
@@ -64,6 +74,25 @@
 </div>
 
 
+
+
+<div class="popup popup_type_edit-profile popup_is-animated">
+  <div class="popup__content">
+      <button type="button" class="popup__close"></button>
+      <h2 class="popup__title">Обновить аватар</h2>
+      <form method="GET" name="update-avatar-form" action="#" class='popup__form' novalidate>
+              <input type='url' name="imagelinkAvatar" id="imageLinkProfile" placeholder="Ссылка на картинку" class="popup__input popup__input_type_imageurl" required>
+              <span class="popup__error imageLinkProfile-error"></span>
+              <button type='submit' class="popup__button">
+                  Сохранить
+              </button>
+      </form>
+  </div>
+</div>
+
+
+
+
 <template id="card-template">
   <li class="places__item card">
     <img class="card__image" src="" alt="" />
@@ -71,7 +100,10 @@
     <div class="card__description">
       <h2 class="card__title">
       </h2>
-      <button type="button" class="card__like-button"></button>
+      <div class="card__like-container">
+        <button type="button" class="card__like-button"></button>
+        <span class="card__like-counter">9</span>
+      </div>
     </div>
   </li>
 </template>
