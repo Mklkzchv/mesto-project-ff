@@ -1,6 +1,3 @@
-import { config } from '../utils/constants.js';
-
-
 //
 // Класс добавления новой карочки в index.html
 //
@@ -53,7 +50,7 @@ generateCard() {
 //
 // Метод удаления карочки из index.html
 //
-removeCard() { 
+removeCard() {
   this._element.remove();
   this._element = null;
 }

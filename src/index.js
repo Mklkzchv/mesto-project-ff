@@ -66,7 +66,6 @@ const generateCard = (data) => {
     removeCard: (cardId) => {
         api.deleteCard(cardId)
           .then(() => {
-            deleteCard.close();
             card.removeCard(); 
           })
           .catch(console.error);
@@ -105,7 +104,6 @@ const api = new Api({
 //
 Promise.all([api.getInitialCards(), api.getUserInfo()])
 .then(([initialCards, userData]) => {
-  console.log('userData ', userData);
   userProfile.setUserInfo(userData);
   cardList.renderItems(initialCards);
 })
@@ -115,7 +113,7 @@ Promise.all([api.getInitialCards(), api.getUserInfo()])
 //
 const cardList = new Section({ 
   renderer: (item) => {
-    cardList.addItem(generateCard(item));
+    cardList.addItem(generateCard(item), true);
   }}, config.cardList);
 //
 // Создаем экземпляр класса UserInfo
@@ -126,7 +124,7 @@ const userProfile = new UserInfo(userSelector);
 //
 function handleProfileFormSubmit(evt) {
   load(true, evt);
-  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+  evt.preventDefault(); // Этот метод отменяет стандартную отправку формы
 
   const dataUser = {};
   dataUser.username = nameProfileInput.value;
@@ -135,8 +133,13 @@ function handleProfileFormSubmit(evt) {
   api.editUserInfo(dataUser)
   .then((dataUser) => {
     userProfile.setUserInfo(dataUser)
-    load(false, evt);
     closePopup(popupEditProfile);
+  })
+  .catch((error) => {
+    console.error('Ошибка при редактировании информации о пользователе:', error);
+  })
+  .finally(() => {
+    load(false, evt);
   });
 }
 //
@@ -144,7 +147,7 @@ function handleProfileFormSubmit(evt) {
 //
 function handleAvatarFormSubmit(evt) {
   load(true, evt);
-  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+  evt.preventDefault(); // Этот метод отменяет стандартную отправку формы
   const dataUserAvatar = {};
   dataUserAvatar.imagelink = urlProfileAvatarInput.value;
 
@@ -152,11 +155,15 @@ function handleAvatarFormSubmit(evt) {
   .then((data) => {
     userProfile.setUserInfo(data);
     closePopup(popupEditAvatar);
-    
-    load(false, evt);
     urlProfileAvatarInput.value = '';
+  })
+  .catch((error) => {
+    console.error('Ошибка при изменении аватара пользователя:', error);
+    // Здесь можно добавить код для отображения сообщения об ошибке пользователю
+  })
+  .finally(() => {
+    load(false, evt);
   });
-
 }
 //
 // Обработчик «отправки» формы добавления нового места
@@ -170,13 +177,18 @@ function handleFormPlaceSubmit(evt) {
   };
 
   api.addCard(newCard)
-        .then((newCard) => {
-          cardList.addItem(generateCard(newCard));
-
-          load(false, evt);
-          evt.target.reset(); // сбрасываем форму
-          closePopup(popupAddNewCard);
-      });
+    .then((newCard) => {
+      cardList.addItem(generateCard(newCard), false);
+      evt.target.reset(); // сбрасываем форму
+      closePopup(popupAddNewCard);
+    })
+    .catch((error) => {
+      console.error('Ошибка при добавлении нового места:', error);
+      // Здесь можно добавить код для отображения сообщения об ошибке пользователю
+    })
+    .finally(() => {
+      load(false, evt);
+    });
 }
 //
 // Прикрепляем обработчик к форме:

@@ -11,7 +11,6 @@ export default class FormValidator {
       this._inputErrorClass = validationConfig.inputErrorClass;
       this._errorClass = validationConfig.errorClass;
       this._formElement = formElement;
-      this._validPattern = /^[a-zA-Zа-яА-ЯёЁ\s-]+$/; // Регулярное выражение для разрешённых символов
     }
 //
 //
@@ -37,10 +36,12 @@ export default class FormValidator {
 //
 //
   _checkInputValidity(inputElement) {
-    const value = inputElement.value;
-    if (!this._validPattern.test(value)) {
-      this._showError(inputElement, "Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы");
-    } else if (!inputElement.validity.valid) {
+    if (inputElement.validity.patternMismatch) {
+      inputElement.setCustomValidity(inputElement.dataset.errorMessage);
+    } else {
+      inputElement.setCustomValidity("");
+    }
+    if (!inputElement.validity.valid) {
       this._showError(inputElement);
     } else {
       this._hideError(inputElement);
@@ -70,10 +71,11 @@ export default class FormValidator {
 //
 //
     resetValidation() {
-      this._toggleButtonState(); 
       this._inputList.forEach((inputElement) => {
+        this._checkInputValidity(inputElement);
         this._hideError(inputElement);
       });
+      this._toggleButtonState(); 
     }; 
 //
 //

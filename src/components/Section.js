@@ -9,8 +9,12 @@ export default class Section {
 //
 // Метод добавления карточки в шаблон
 //
-    addItem(element) {
-      this._container.prepend(element);
+    addItem(element, isInit) {
+      if(isInit) {
+        this._container.append(element);
+      } else {
+        this._container.prepend(element);
+      }
     }
 //
 // Метод очистки дочерней разметки
